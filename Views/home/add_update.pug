@@ -22,14 +22,55 @@ body
             .mb-3
                 label(for="taskOwner" class="form-label") Task Owner
                 input(type="text" class="form-control" id="taskOwner" name="taskOwner" required)
-            button(type="submit" class="btn btn-primary") Add/Edit
+            button(type="submit" class="btn btn-success" onclick="submitForm()") #{mode === 'Update' ? 'Update': 'Add'}
+            span &nbsp;
+            button(type="submit" class="btn btn-primary" onclick="window.location.href='/'") Back to list
 
-    script.
-        const picker = new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
-            localization: {
-                'locale': 'fr'
-            }
-        });
-        picker.dates.formatInput = function(date) {
-            return moment(date).format('DD/MM/YYYY HH:mm')
+
+script.
+    const format = 'DD/MM/YYYY HH:mm'
+    const picker = new tempusDominus.TempusDominus(document.getElementById('datetimepicker1'),{
+        localization: {
+            'locale': 'fr'
         }
+    })
+    picker.dates.formatInput = function(date) {
+        return moment(date).format(format)
+    }
+
+    if ("#{mode}" === "Update") {
+        const taskData = !{JSON.stringify(taskData || {})}.tasks;
+        document.getElementById('taskName').value = taskData.taskName || '';
+
+        picker.dates.setValue(
+            new tempusDominus.DateTime(moment(taskData.taskDeadline, format))
+        );
+
+        document.getElementById('branch').value = taskData.venue || '';
+        document.getElementById('contactPhone').value = taskData.contactPhone || '';
+        document.getElementById('taskOwner').value = taskData.seat || '';
+    }
+
+    function submitForm() {
+        const taskData = {
+            eventName: document.getElementById('taskName').value,
+            eventDateTime: document.getElementById('taskDeadline').value,
+            venue: document.getElementById('branch').value,
+            contactPhone: document.getElementById('contactPhone').value,
+            seat: document.getElementById('taskOwner').value,
+        };
+
+        const url = "#{mode}" === "Update" ? `/api/tasks/${!{JSON.stringify(taskData || {})}.id}` : '/api/ticket';
+        const method = "#{mode}" === "Update" ? 'put' : 'post';
+
+        axios[method](url, taskData).then(response => {
+            alert('Success!');
+            location.href = '/'
+        })
+        .catch(error => {
+            if(error.response)
+                alert(JSON.stringify(error.response.data.errors))
+            else
+                alert(error)
+        });
+    }

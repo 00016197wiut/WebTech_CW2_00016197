@@ -5,7 +5,23 @@ const tasks_service = require('../../../services/tasks/')
 const tasks_controller = {
     getAll(req, res) {
         res.json(tasks_service.getAll())
+    },
+    create(req, res) {
+        res.ststus(201).json(
+            tasks_service.create(req, res)
+        )
+    },
+    delete(req, res) {
+        const tasks = tasks_service.getById(req.params.id)
+
+        if (tasks) {
+            tasks_service.delete(req.params.id)
+            res.status(204).send('tasks deleted successfully')
+        } else {
+            res.status(404).send('tasks not found')
+        }
     }
 }
+
 
 module.exports = tasks_controller
