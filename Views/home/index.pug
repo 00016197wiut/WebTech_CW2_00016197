@@ -13,23 +13,31 @@ body
                     th(scope="col") Task Owner
                     th(scope="col") Actions
             tbody
-                tr
-                    td 1
-                    td Example Task Name 1
-                    td 2024-02-17 10:00
-                    td Example Branch
-                    td +1234567890
-                    td Andrew Tate
-                    td
-                        button.btn.btn-primary.btn-sm Edit
-                        button.btn.btn-danger.btn-sm Delete
-                tr
-                    td 1
-                    td Example Task Name 2
-                    td 2024-02-17 10:00
-                    td Example Branch
-                    td +1234567890
-                    td 42
-                    td
-                        button.btn.btn-primary.btn-sm Edit
-                        button.btn.btn-danger.btn-sm Delete
+script.
+    document.addEventListener('DOMContentLoaded', function() {
+        axios.get('/api/tasks')
+            .then(function(response) {
+                const tasks = response.data;
+                const tableBody = document.querySelector('table tbody');
+                tasks.forEach(t => {
+                    const row = document.createElement('tr');
+                    const task = t.tasks
+                    row.innerHTML = `
+                        <td>${t.id}</td>
+                        <td>${task.taskName}</td>
+                        <td>${task.taskDeadline}</td>
+                        <td>${task.branch}</td>
+                        <td>${task.contactPhone}</td>
+                        <td>${task.taskOwner}</td>
+                        <td>
+                            <button class="btn btn-primary btn-sm">Edit</button>
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+    });

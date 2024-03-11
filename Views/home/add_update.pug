@@ -4,24 +4,24 @@ body
         h1 Add/Update Event
         form(action="/submit-event-form" method="POST")
             .mb-3
-                label(for="eventName" class="form-label") Event Name
-                input(type="text" class="form-control" id="eventName" name="eventName" required)
+                label(for="Task Name" class="form-label") Task Name
+                input(type="text" class="form-control" id="taskName" name="taskName" required)
             .mb-3
-                label(for="eventDateTime" class="form-label") Event Date/Time
+                label(for="taskDeadline" class="form-label") Task Deadline
                 .input-group.date(id="datetimepicker1" data-target-input="nearest")
-                    input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="eventDateTime" required)
+                    input(type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="taskDeadline" required)
                     .input-group-append(data-target="#datetimepicker1" data-toggle="datetimepicker")
                         .input-group-text
                             i.fas.fa-calendar-alt
             .mb-3
-                label(for="venue" class="form-label") Venue
-                input(type="text" class="form-control" id="venue" name="venue" required)
+                label(for="Branch" class="form-label") Branch
+                input(type="text" class="form-control" id="branch" name="branch" required)
             .mb-3
                 label(for="contactPhone" class="form-label") Contact Phone
                 input(type="tel" class="form-control" id="contactPhone" name="contactPhone" required)
             .mb-3
-                label(for="seat" class="form-label") Seat
-                input(type="text" class="form-control" id="seat" name="seat" required)
+                label(for="taskOwner" class="form-label") Task Owner
+                input(type="text" class="form-control" id="taskOwner" name="taskOwner" required)
             button(type="submit" class="btn btn-primary") Add/Edit
 
     script.
