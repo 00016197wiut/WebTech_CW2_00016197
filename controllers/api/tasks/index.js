@@ -7,7 +7,7 @@ const tasks_controller = {
         res.json(tasks_service.getAll())
     },
     create(req, res) {
-        res.ststus(201).json(
+        res.status(201).json(
             tasks_service.create(req, res)
         )
     },
@@ -16,9 +16,19 @@ const tasks_controller = {
 
         if (tasks) {
             tasks_service.delete(req.params.id)
-            res.status(204).send('tasks deleted successfully')
+            res.status(204).send('Tasks deleted successfully')
         } else {
-            res.status(404).send('tasks not found')
+            res.status(404).send('Tasks not found')
+        }
+    },
+
+    update(req, res) {
+        const task = tasks_service.update(req.params.id, req.body)
+
+        if (task) {
+            res.json(task)
+        } else {
+            res.status(404).send('Task not found')
         }
     }
 }

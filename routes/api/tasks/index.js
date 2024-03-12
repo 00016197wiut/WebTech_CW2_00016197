@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { validationResult } = require('express-validator');
-const { addTaskValidation, deleteTaskValidation } = require('../../../validators/tasks');
+const { addTaskValidation, updateTaskValidation, deleteTaskValidation } = require('../../../validators/tasks');
 
 
 const router = express.Router();
@@ -30,6 +30,15 @@ router.delete('/:id', deleteTaskValidation(), (req, res, next) => {
     }
 
     tasks_controller.delete(req, res)
+})
+
+router.put('/:id', updateTaskValidation(), (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    tasks_controller.update(req, res)
 })
 
 module.exports = router;

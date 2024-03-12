@@ -14,23 +14,36 @@ const tasks_service = {
     create(req, res) {
         let new_id = genRandId(4)
 
-        const tasks = req.body
+        const task = req.body
 
-        const new_tasks = {
+        const new_task = {
             id: new_id,
-            tasks: tasks
+            task: task
         }
 
-        tasks.push(new_tasks)
+        tasks.push(new_task)
 
         writeToFile(tasks)
 
-        return new_tasks
+        return new_task
     },
     delete(id) {
         const index = tasks.findIndex(u => u.id == id)
         tasks.splice(index, 1)
         writeToFile(tasks)
+    },
+    update(id, updateData) {
+        const taskIndex = tasks.findIndex(t => t.id == id)
+
+        if (taskIndex === -1) {
+            return null
+        }
+
+        tasks[taskIndex].task = { ...tasks[taskIndex].task, ...updateData }
+
+        writeToFile(tasks)
+
+        return tasks[taskIndex]
     }
 }
 
