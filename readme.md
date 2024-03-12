@@ -16,4 +16,7 @@ Services: Contains any additional services or utilities needed for the applicati
 Validators: Holds validation logic to ensure data integrity.
 Views: Contains Pug files for rendering the application's views.
 
+
+The project can be accessed using this link [ https://github.com/00016197wiut/WebTech_CW2_00016197 ]
+
 I have utilized various npm packages for this project, and the node_modules directory has been excluded from version control using the .gitignore file. 
